@@ -23,12 +23,17 @@ export default function App() {
     setCurrentNoteId(newNote.id);
   }
 
+  //Put the most recently-modified note on the top
   function updateNote(text) {
-    setNotes((oldNotes) =>
-      oldNotes.map((oldNote) => {
-        return oldNote.id === currentNoteId ? { ...oldNote, body: text } : oldNote;
-      })
-    );
+    setNotes((oldNotes) => {
+      const newArray = [];
+      oldNotes.forEach((oldNote) => {
+        oldNote.id === currentNoteId
+          ? newArray.unshift({ ...oldNote, body: text })
+          : newArray.push(oldNote);
+      });
+      return newArray;
+    });
   }
 
   function findCurrentNote() {
